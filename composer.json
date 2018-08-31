@@ -2,7 +2,6 @@
   "name": "xorti/mxgraph-editor",
   "description": "This repository only contains the grapheditor example and the mxClient.js to display the necessary files to build your own editor.",
   "license": "Apache-2.0",
-  "version": "3.9.8",
   "homepage": "https://github.com/xorti/mxgraph-editor",
   "license": "Apache-2.0",
   "repository": {
