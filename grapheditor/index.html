@@ -43,7 +43,7 @@
 	<script type="text/javascript" src="deflate/base64.js"></script>
 	<script type="text/javascript" src="jscolor/jscolor.js"></script>
 	<script type="text/javascript" src="sanitizer/sanitizer.min.js"></script>
-	<script type="text/javascript" src="../mxClient.js"></script>
+	<script type="text/javascript" src="../../../src/js/mxClient.js"></script>
 	<script type="text/javascript" src="js/EditorUi.js"></script>
 	<script type="text/javascript" src="js/Editor.js"></script>
 	<script type="text/javascript" src="js/Sidebar.js"></script>
@@ -85,6 +85,7 @@
 			// Adds required resources (disables loading of fallback properties, this can only
 			// be used if we know that all keys are defined in the language specific file)
 			mxResources.loadDefaultBundle = false;
+      debugger;
 			var bundle = mxResources.getDefaultBundle(RESOURCE_BASE, mxLanguage) ||
 				mxResources.getSpecialBundle(RESOURCE_BASE, mxLanguage);
 

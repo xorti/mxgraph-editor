@@ -655,7 +655,7 @@ Toolbar.prototype.hideMenu = function()
 /**
  * Adds a label to the toolbar.
  */
-Toolbar.prototype.addMenu = function(label, tooltip, showLabels, name, c, showAll)
+Toolbar.prototype.addMenu = function(label, tooltip, showLabels, name, c, showAll, ignoreState)
 {
 	var menu = this.editorUi.menus.get(name);
 	var elt = this.addMenuFunction(label, tooltip, showLabels, function()
@@ -663,11 +663,14 @@ Toolbar.prototype.addMenu = function(label, tooltip, showLabels, name, c, showAl
 		menu.funct.apply(menu, arguments);
 	}, c, showAll);
 	
-	menu.addListener('stateChanged', function()
+	if (!ignoreState)
 	{
-		elt.setEnabled(menu.enabled);
-	});
-
+		menu.addListener('stateChanged', function()
+		{
+			elt.setEnabled(menu.enabled);
+		});
+	}
+	
 	return elt;
 };
 
@@ -832,14 +835,12 @@ Toolbar.prototype.addClickHandler = function(elt, funct)
 			mxEvent.consume(evt);
 		});
 		
-		if (document.documentMode != null && document.documentMode >= 9)
-		{
-			// Prevents focus
-			mxEvent.addListener(elt, 'mousedown', function(evt)
-			{
-				evt.preventDefault();
-			});
-		}
+		// Prevents focus
+	    mxEvent.addListener(elt, (mxClient.IS_POINTER) ? 'pointerdown' : 'mousedown',
+        	mxUtils.bind(this, function(evt)
+    	{
+			evt.preventDefault();
+		}));
 	}
 };
 
@@ -849,7 +850,6 @@ Toolbar.prototype.addClickHandler = function(elt, funct)
 Toolbar.prototype.createButton = function(classname)
 {
 	var elt = document.createElement('a');
-	elt.setAttribute('href', 'javascript:void(0);');
 	elt.className = 'geButton';
 
 	var inner = document.createElement('div');
@@ -870,7 +870,6 @@ Toolbar.prototype.createButton = function(classname)
 Toolbar.prototype.createLabel = function(label, tooltip)
 {
 	var elt = document.createElement('a');
-	elt.setAttribute('href', 'javascript:void(0);');
 	elt.className = 'geLabel';
 	mxUtils.write(elt, label);
 	
@@ -927,16 +926,12 @@ Toolbar.prototype.addMenuHandler = function(elt, showLabels, funct, showAll)
 			mxEvent.consume(evt);
 		}));
 
-		// Hides menu if already showing
-		mxEvent.addListener(elt, 'mousedown', mxUtils.bind(this, function(evt)
+		// Hides menu if already showing and prevents focus
+        mxEvent.addListener(elt, (mxClient.IS_POINTER) ? 'pointerdown' : 'mousedown',
+        	mxUtils.bind(this, function(evt)
 		{
 			show = this.currentElt != elt;
-			
-			// Prevents focus
-			if (document.documentMode != null && document.documentMode >= 9)
-			{
-				evt.preventDefault();
-			}
+			evt.preventDefault();
 		}));
 	}
 };
