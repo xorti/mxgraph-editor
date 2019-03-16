@@ -1,0 +1,7 @@
+{
+  "name": "mxgraph-editor",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-uglify": "^4.0.0"
+  }
+}
